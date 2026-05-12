@@ -59,6 +59,16 @@ await username.fill(""); // Clear the username field
 await username.fill('rahulshettyacademy');
 await password.fill('Learning@830$3mK2');
 await signInBtn.click();
-console.log(await page.locator(".card-body a").textContent());
+const cardTitles = page.locator('.card-body a');
+console.log(await cardTitles.first().textContent());
+await expect(cardTitles.first().toContainText('iphone X'));
+console.log(await cardTitles.nth(1).textContent());
+const allTitles = await cardTitles.allTextContents(); // grab all the titles content and playwright will not wait for "alltextContents" action
+console.log(allTitles);
 });
 
+// Test 5 - Client Dashboard
+test('Rahul shetty academy for client dashboard', async ({page}) =>{
+    
+}
+);
