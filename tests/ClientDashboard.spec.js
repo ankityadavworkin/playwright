@@ -7,10 +7,8 @@ const {test,expect} = require('@playwright/test');
 //  In this test, we are using the browser fixture to launch a new browser, create a new page, 
 // navigate to Google, perform a search, and then close the browser.
 
-// Test 1
-test.only('Client App SignuPage Playwright test', async ({page}) => {     
-
-// SignUp Page
+// Test 1 - Client App SignuPage
+test('Client App SignuPage Playwright test', async ({page}) => {     
 const firstName = page.locator("#firstName");     
 const lastName = page.locator("#lastName");     
 const userEmail = page.locator("#userEmail");     
@@ -28,18 +26,19 @@ await userMobile.fill('8445688822');
 const occupations = page.locator("//select[@formcontrolname='occupation']");
 await occupations.selectOption("2: Student");
 await page.locator("//input[@formcontrolname='gender']").nth(1).click();
-expect (page.locator("//input[@formcontrolname='gender']").nth(1)).toBeChecked();
+expect (await page.locator("//input[@formcontrolname='gender']").nth(1)).toBeChecked();
 console.log("Checkbox Status: "+await page.locator("//input[@formcontrolname='gender']").nth(1).isChecked());
 await userPassword.fill("Demo@123");
 await confirmPassword.fill("Demo@123");
-await page.locator("//input[@formcontrolname='requirzed']").click();
-expect (page.locator("//input[@formcontrolname='required']")).toBeChecked();
-await page.locator("//input[@formcontrolname='requirzed']").uncheck();
+await page.locator("//input[@formcontrolname='required']").click();
+await expect (page.locator("//input[@formcontrolname='required']")).toBeChecked();
+await page.locator("//input[@formcontrolname='required']").uncheck();
+expect (await page.locator("//input[@formcontrolname='required']").isChecked()).toBeFalsy();
 await page.waitForTimeout(3000);
 });
 
-// Test 2 - Client Dashboard
-test('SignUp Dashboard - Rahul shetty academy for client dashboard', async ({page}) =>{
+// Test 2 - Client Dashboard Login Page
+test('SignUp Dashboard - Rahul shetty academy Login Page Pracytice', async ({page}) =>{
 const username = page.locator("#userEmail");
 const password = page.locator("#userPassword");
 const signInBtn = page.locator("#login"); 
@@ -53,7 +52,55 @@ const titles = await page.locator(".card-body b").allTextContents();
 console.log(titles);
 });
 
-// Test 3
+// Test 3 - Child Window Handle 
+test.only('Child Window Handle', async ({browser}) => {
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    const username = page.locator("[id='username']");
+    await page.goto('https://rahulshettyacademy.com/loginpagePractise/');
+    const documentLink = page.locator("[href*='documents-request']");
+    
+    const [childPage] = await Promise.all(
+    [
+        context.waitForEvent('page'), // Wait for the new page to open
+        await documentLink.click(),
+    ]);
+    
+    const text = await childPage.locator(".red").textContent();
+    console.log(text); 
+    const arrayText = text.split("@")[1]; // Split the text at '@' and take the second part (the email domain)
+    console.log(arrayText);
+    const email = arrayText.split(" ")[0].trim(); // Further split the text at space and take the first part, then trim any extra whitespace
+    console.log(email);
+    await childPage.close();
+    await username.fill(email);
+    console.log("Text Content: " + await username.textContent()); // This will return an empty string because the locator is an input field, and input fields do not have text content.
+    console.log("Input Value: " + await username.inputValue()); // This will return the value entered in the input field, which is the email we extracted from the child page.
+    await page.waitForTimeout(3000);
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Test 
 // test.skip is a method provided by Playwright that allows us to skip a specific test.
 test('Page Playwright test if you want skip this test', async ({page}) => {
 const username = page.locator("[id='username']");
@@ -75,8 +122,9 @@ await username.fill('rahulshettyacademy');
 await password.fill('Learning@830$3mK2');
 await signInBtn.click();
 const cardTitles = page.locator('.card-body a');
+await cardTitles.first().waitFor();
 console.log(await cardTitles.first().textContent());
-await expect(cardTitles.first().toContainText('iphone X'));
+await expect(cardTitles.first()).toContainText('iphone X');
 console.log(await cardTitles.nth(1).textContent());
 const allTitles = await cardTitles.allTextContents(); 
 // grab all the titles content and playwright will not wait for "alltextContents" action

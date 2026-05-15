@@ -65,10 +65,6 @@ await expect(cardTitles.first().toContainText('iphone X'));
 console.log(await cardTitles.nth(1).textContent());
 const allTitles = await cardTitles.allTextContents(); // grab all the titles content and playwright will not wait for "alltextContents" action
 console.log(allTitles);
+const documentLink = page.locator("[href*='documents-request']");
+await expect(documentLink).toHaveAttribute("class","blinkingText");
 });
-
-// Test 5 - Client Dashboard
-test('Rahul shetty academy for client dashboard', async ({page}) =>{
-    
-}
-);
