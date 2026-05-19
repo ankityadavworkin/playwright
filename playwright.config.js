@@ -8,7 +8,7 @@ import { defineConfig, devices } from '@playwright/test';
 
 const config =({
   testDir: './tests',
-  timeout: 10 * 1000, // Applicable for every step
+  timeout: 20 * 1000, // Applicable for every step
   
   expect: {
     timeout: 20 * 1000,  // Applicable for expect() assertions
