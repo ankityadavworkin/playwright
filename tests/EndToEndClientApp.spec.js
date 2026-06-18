@@ -33,7 +33,7 @@ await expect (page.locator("//input[@formcontrolname='required']")).toBeChecked(
 
 
 // Test 2 - Client Dashboard End to End FLow
-test('This test case performing client website end-to-end testing', async ({page}) =>{
+8test('This test case performing client website end-to-end testing', async ({page}) =>{
 const username = page.locator("#userEmail");
 const password = page.locator("#userPassword");
 const signInBtn = page.locator("#login"); 
@@ -114,5 +114,4 @@ await expect (page.locator(".col-text")).toHaveText(cleanedOrderId); // This wil
 await expect (page.locator("//div[@class='address']/div[text()=' Billing Address ']//following-sibling::p[1]")).toHaveText(userName); // This will assert that the order ID displayed on the order details page matches the cleaned order ID, confirming that the correct order details are being displayed.
 await expect (page.locator(".artwork-card-info .title")).toHaveText(productName); // This will assert that the order ID displayed on the order details page matches the cleaned order ID, confirming that the correct order details are being displayed.
 // await page.waitForTimeout(3000);
-
 });

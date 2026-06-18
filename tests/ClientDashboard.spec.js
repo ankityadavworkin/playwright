@@ -79,27 +79,6 @@ test.only('Child Window Handle', async ({browser}) => {
     await page.waitForTimeout(3000);
     });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Test 
 // test.skip is a method provided by Playwright that allows us to skip a specific test.
 test('Page Playwright test if you want skip this test', async ({page}) => {
